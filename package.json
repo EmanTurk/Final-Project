@@ -10,8 +10,9 @@
     "validator": "^13.11.0"
   },
   "scripts": {
-    "devStart": "nodemon index.js"
-  },
+    "start": "node index.js",
+    "devStart": "nodemon index.js"  },
+    
   "name": "finalproject",
   "version": "1.0.0",
   "type": "module",
