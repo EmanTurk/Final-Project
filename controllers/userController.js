@@ -9,9 +9,10 @@ export const createUser = async (req, res) => {
     try{    
     if(!name || !email || !password || !address){
         res.status(404)
-        throw new Error ("please fill all fields")
+        res.send(req.body)
+        // throw new Error ("please fill all fields")
     }
-
+    
     const userExists = await User.findOne({email}) //to avoid repetition-using same email twice.
 
     if(userExists){
