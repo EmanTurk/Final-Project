@@ -4,13 +4,12 @@ import bcrypt from "bcrypt"
 
 
 export const createUser = async (req, res) => {
-    const {name, email, address, password} = req.body;
+    const {name, email, address, password} = req.body.formData;
     console.log(req.body)
     try{    
     if(!name || !email || !password || !address){
         res.status(404)
-        res.send(req.body)
-        // throw new Error ("please fill all fields")
+        throw new Error ("please fill all fields")
     }
     
     const userExists = await User.findOne({email}) //to avoid repetition-using same email twice.
