@@ -15,17 +15,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Must Provide A Valid Email"],
         unique: [true, 'This Email is Already In Use'],
-        lowercase: true, // Corrected from 'lowerCase' to 'lowercase'
-        validate: function(value) { // Corrected from 'validatior' to 'validate'
+        lowercase: true, 
+        validate: function(value) { 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(value);
         },
-        message: "Invalid Email Address" // Corrected the spelling of 'Unvalid' to 'Invalid'
+        message: "Invalid Email Address" 
     },
     password: {
         type: String,
         required: true,
-        minlength: [4, "Password must be at least 4 characters!"] // Corrected the message to match the minlength
+        minlength: [4, "Password must be at least 4 characters!"] 
     }
 }, {
     timestamps: true

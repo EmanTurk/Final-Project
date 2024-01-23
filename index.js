@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json())
 app.use('/api', userRoutes);
 
-const PORT = process.env.PORT || 6000; // Use the PORT environment variable provided by Render, or 6000 if it's not set
+const PORT = process.env.PORT || 6000;
 
 connectDB().then(() => {
     app.listen(PORT, () => {
