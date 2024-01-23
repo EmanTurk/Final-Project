@@ -5,6 +5,7 @@ import bcrypt from "bcrypt"
 
 export const createUser = async (req, res) => {
     const {name, email, address, password} = req.body;
+    console.log(req.body)
     try{    
     if(!name || !email || !password || !address){
         res.status(404)
