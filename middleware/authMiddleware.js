@@ -3,7 +3,10 @@ import User from "../models/user.js"
 
 // Middleware function for protecting routes with JWT authentication
 const protect = async (req, res, next) => {
+    console.log('Hello I am Protector')
     let token;
+
+
 
     const authHeader = req.headers.authorization || req.headers.Authorization
     if(authHeader && authHeader.startsWith('Bearer')){

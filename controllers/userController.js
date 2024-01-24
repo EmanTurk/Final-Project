@@ -46,6 +46,39 @@ export const createUser = async (req, res) => {
         res.status(500).json({message: error.message});
     }
 }
+//this function to update the profile- after setProfile...
+
+
+export const updateProfile = async (req, res, next) => {
+    console.log('hELllo Im update function')
+    // Retrieve user ID from the request (added by the protect middleware)
+    const userId = req.user._id;
+
+    try {
+        const { profilePicture, name, linkedIn, fieldOfWork, interests, location } = req.body;
+
+        // Update the user's profile in the database
+        const updatedUser = await User.findByIdAndUpdate(userId, {
+            profilePicture,
+            name,
+            linkedIn,
+            fieldOfWork,
+            interests,
+            location
+        }, { new: true });
+
+        if (updatedUser) {
+            res.status(200).json(updatedUser);
+        } else {
+            res.status(404).send('User not found');
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+///////////
 
 export const loginUser = async (req, res) => {
     const {email, password} = req.body;

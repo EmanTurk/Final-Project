@@ -8,22 +8,23 @@ import {
   updateUser,
   deleteUser,
   loginUser,
-  getMe
+  getMe,
+  updateProfile
 } from "../controllers/userController.js";
 
-// Import the protect middleware for route protection with JWT authentication
 import protect from '../middleware/authMiddleware.js';
 
-// Create an instance of the Express Router
 const router = express.Router();
 
-// Define routes and associated middleware/handlers
+console.log ('I;m userRout')
 
-// POST route to create a new user
+
 router.post('/users', createUser);
 
-// POST route to handle user login
 router.post('/users/login', loginUser);
+
+router.post('/updateProfile', protect, updateProfile);
+
 
 // GET route to retrieve the currently authenticated user, protected by JWT authentication
 router.get('/users/me', protect, getMe);
@@ -37,8 +38,8 @@ router.get('/users/:id', findUserById);
 // PUT route to update a specific user by ID
 router.put('/user',protect, updateUser);
 
-// DELETE route to delete a specific user by ID
 router.delete('/users/:id', deleteUser);
 
-// Export the configured router for use in other files
+
+
 export default router;
