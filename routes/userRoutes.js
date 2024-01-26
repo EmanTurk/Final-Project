@@ -13,6 +13,7 @@ import {
 } from "../controllers/userController.js";
 
 import protect from '../middleware/authMiddleware.js';
+import upload from '../mutler/multerConfig.js';
 
 const router = express.Router();
 
@@ -23,7 +24,10 @@ router.post('/users', createUser);
 
 router.post('/users/login', loginUser);
 
-router.post('/updateProfile', protect, updateProfile);
+// userRoutes.js
+// ... other routes ...
+router.post('/api/updateProfile', protect, upload.single('profilePicture'), updateProfile);
+// ... other routes ...
 
 
 // GET route to retrieve the currently authenticated user, protected by JWT authentication

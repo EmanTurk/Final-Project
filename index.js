@@ -9,6 +9,7 @@ app.use(cors())
 app.use(express.json())
 app.use('/api', userRoutes);
 
+
 const PORT = process.env.PORT || 6000;
 
 connectDB().then(() => {

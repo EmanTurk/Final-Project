@@ -1,6 +1,10 @@
 import User from '../models/user.js';
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt" 
+import bcrypt from "bcrypt";
+import express from 'express';
+import multer from 'multer';
+import protect from '../middleware/authMiddleware.js';
+
 
 
 export const createUser = async (req, res) => {
@@ -50,33 +54,35 @@ export const createUser = async (req, res) => {
 
 
 export const updateProfile = async (req, res, next) => {
-    console.log('hELllo Im update function')
+    console.log('Hello, Im the update function')
     // Retrieve user ID from the request (added by the protect middleware)
     const userId = req.user._id;
-
+  
     try {
-        const { profilePicture, name, linkedIn, fieldOfWork, interests, location } = req.body;
-
-        // Update the user's profile in the database
-        const updatedUser = await User.findByIdAndUpdate(userId, {
-            profilePicture,
-            name,
-            linkedIn,
-            fieldOfWork,
-            interests,
-            location
-        }, { new: true });
-
-        if (updatedUser) {
-            res.status(200).json(updatedUser);
-        } else {
-            res.status(404).send('User not found');
-        }
+      const { username, linkedIn, fieldOfWork, interests, location, bio } = req.body;
+      const profilePicture = req.file.path; // Access the uploaded file path
+  
+      // Update the user's profile in the database
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        profilePicture,
+        username,
+        linkedIn,
+        fieldOfWork,
+        interests,
+        location,
+        bio
+      }, { new: true });
+  
+      if (updatedUser) {
+        res.status(200).json(updatedUser);
+      } else {
+        res.status(404).send('User not found');
+      }
     } catch (error) {
-        console.error('Error updating profile:', error);
-        res.status(500).send('Internal Server Error');
+      console.error('Error updating profile:', error);
+      res.status(500).send('Internal Server Error');
     }
-};
+  };
 
 ///////////
 
@@ -171,5 +177,28 @@ export const deleteUser = async (req, res) => {
         expiresIn:"30d"
     })
  }
+
+ const router = express.Router();
+const upload = multer({ dest: 'uploads/' }); // Set the destination folder for uploaded files
+
+// ...
+
+// Update the updateProfile route to handle file uploads
+router.post('/updateProfile', protect, upload.single('profilePicture'), async (req, res) => {
+  try {
+    // Access the uploaded file using req.file
+    const { profilePicture, username, linkedIn, fieldOfWork, interests, location, bio } = req.body;
+    
+    // Handle saving the uploaded file and other profile data to your database
+    // Make sure to save the file path or other relevant information in the database
+    // You may need to configure storage options in multer for file handling
+
+    // Return a success response or error response as needed
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
